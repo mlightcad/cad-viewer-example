@@ -2,6 +2,8 @@
 
 This is an example application that demonstrates how to use the `@mlightcad/cad-viewer` component with a full-featured Vue.js interface.
 
+[**🌐 Live Demo**](https://mlight-lee.github.io/cad-viewer-example/)
+
 ## Features
 
 - 🎨 **Full UI Interface**: Complete CAD viewer with toolbars, menus, and status bar
