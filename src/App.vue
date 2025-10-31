@@ -2,6 +2,7 @@
   <MlCadViewer
     locale="en"
     url="https://mlightcad.gitlab.io/cad-data/data/anteen.dwg"
+    base-url="https://cdn.jsdelivr.net/gh/mlightcad/cad-data@main/"
   />
 </template>
 
