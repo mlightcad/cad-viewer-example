@@ -2,7 +2,7 @@
 
 This is an example application that demonstrates how to use the `@mlightcad/cad-viewer` component with a full-featured Vue.js interface.
 
-[**🌐 Live Demo**](https://mlightcad.gitlab.io/cad-viewer-example/)
+[**🌐 Live Demo**](https://mlightcad.github.io/cad-viewer-example/)
 
 ## Features
 
@@ -43,7 +43,7 @@ Secondly, add the following code in your Vue component.
 
 ```vue
 <template>
-  <MlCadViewer locale="zh" url="https://cdn.jsdelivr.net/gh/mlight-lee/cad-data/data/anteen.dwg" />
+  <MlCadViewer locale="zh" url="https://cdn.jsdelivr.net/gh/mlightcad/cad-data/data/anteen.dwg" />
 </template>
 
 <script setup lang="ts">
