@@ -12,14 +12,14 @@ importers:
         specifier: ^2.3.1
         version: 2.3.2(vue@3.5.18(typescript@5.9.2))
       '@mlightcad/cad-simple-viewer':
-        specifier: 1.4.1
-        version: 1.4.1(@mlightcad/data-model@1.6.0)(lodash-es@4.17.21)(three@0.172.0)
+        specifier: 1.4.11
+        version: 1.4.11(@mlightcad/data-model@1.7.6)(lodash-es@4.17.21)(three@0.172.0)
       '@mlightcad/cad-viewer':
-        specifier: 1.4.1
-        version: 1.4.1(@mlightcad/cad-simple-viewer@1.4.1(@mlightcad/data-model@1.6.0)(lodash-es@4.17.21)(three@0.172.0))(@mlightcad/data-model@1.6.0)(@popperjs/core@2.11.8)(@vueuse/core@11.3.0(vue@3.5.18(typescript@5.9.2)))(element-plus@2.13.0(vue@3.5.18(typescript@5.9.2)))(vue-i18n@10.0.8(vue@3.5.18(typescript@5.9.2)))(vue@3.5.18(typescript@5.9.2))
+        specifier: 1.4.11
+        version: 1.4.11(@mlightcad/cad-simple-viewer@1.4.11(@mlightcad/data-model@1.7.6)(lodash-es@4.17.21)(three@0.172.0))(@mlightcad/data-model@1.7.6)(@vueuse/core@11.3.0(vue@3.5.18(typescript@5.9.2)))(element-plus@2.13.0(vue@3.5.18(typescript@5.9.2)))(vue-i18n@10.0.8(vue@3.5.18(typescript@5.9.2)))(vue@3.5.18(typescript@5.9.2))
       '@mlightcad/data-model':
-        specifier: 1.6.0
-        version: 1.6.0
+        specifier: 1.7.6
+        version: 1.7.6
       element-plus:
         specifier: ^2.12.0
         version: 2.13.0(vue@3.5.18(typescript@5.9.2))
@@ -243,50 +243,50 @@ packages:
     resolution: {integrity: sha512-Z7C/xXCiGWsg0KuKsHTKJxbWhpI3Vs5GwLfOean7MGyVFGqdRgBbAjOCh6u4bbjPc/8MJ2pZmK/0DLdCbivLDA==}
     engines: {node: '>=8'}
 
-  '@mlightcad/cad-simple-viewer@1.4.1':
-    resolution: {integrity: sha512-Fl+VKrbX2iWQlWbGByfl4dzV6lMgG2bQSz+QV4kCTAnWECpZqMvuZ4XG/MAIPTRHB/CKgnIBA7nRcAnOumHoqQ==}
+  '@mlightcad/cad-simple-viewer@1.4.11':
+    resolution: {integrity: sha512-TcArrPcaDCX4Ru9LiDAi/N/vIeXvb3b+9FssyYpGQ+r8T9T38AGOSmIScbleqhI3PNDn8i7YOmWyvwAqDXC8PQ==}
     peerDependencies:
-      '@mlightcad/data-model': ^1.6.0
+      '@mlightcad/data-model': ^1.7.6
       lodash-es: 4.17.21
       three: ^0.172.0
 
-  '@mlightcad/cad-viewer@1.4.1':
-    resolution: {integrity: sha512-ec/EiO16ay8ogO/0RnYiISkl9Z94mIYlfBO1o58cksNa3useeM3S6lQQwHPzVML/0DMjI36x47+XxDTmWDcZJg==}
+  '@mlightcad/cad-viewer@1.4.11':
+    resolution: {integrity: sha512-8yOy02CC1/sglGlgEu4FQyAY55JtxZUlGULfX86AJ5weUODhMItWmd1TMcqCLjw1CCUWt9SEJpSDhGo9E7nYwA==}
     peerDependencies:
-      '@mlightcad/cad-simple-viewer': 1.4.1
-      '@mlightcad/data-model': ^1.6.0
+      '@mlightcad/cad-simple-viewer': 1.4.11
+      '@mlightcad/data-model': ^1.7.6
       '@vueuse/core': ^11.1.0
       element-plus: ^2.12.0
       vue: ^3.4.21
       vue-i18n: ^10.0.1
 
-  '@mlightcad/common@1.3.0':
-    resolution: {integrity: sha512-J49ZpiYxiFrd5qxuHhuzQELVd5YsHq9QrpsRQJJXUg/Ij8mFWyFg5p3B3FvVYlZdi4ptMdSRe4Bkl1SWHtRskw==}
+  '@mlightcad/common@1.4.6':
+    resolution: {integrity: sha512-COTCIgFrJ2dSZvOMnbZUKLL33WxlCRukmsdbhtDKm6SmHesE17NkPd6HCjmpsVBpMn9kqp/EjF/XzrhyPZJjiw==}
 
-  '@mlightcad/data-model@1.6.0':
-    resolution: {integrity: sha512-KaW2b/TPhoKUfttkcfRgkIImmBJrRMMLx966msjNNT3vY7cxf5ffJYM6P7ZtZXH09bPIJ9wvLx9hyQZt35+Qiw==}
+  '@mlightcad/data-model@1.7.6':
+    resolution: {integrity: sha512-mDbiDjVIkmMR14ySRX5Ta++PsZWuh+LQlxwu5cjm6lYeI7Zm/fw22+iE6wKR3cvJf5gJVPboDlCpNC55mhrUpA==}
 
   '@mlightcad/dxf-json@1.0.10':
     resolution: {integrity: sha512-KY2E49y9DHPb0LoEi2Uz2cgmtVFgiNNNBn1DsWYvqn4VLD7itr2+GE51yBZLAzG1SFXiwqPjp5mprU6fI7kysg==}
 
-  '@mlightcad/geometry-engine@3.1.3':
-    resolution: {integrity: sha512-nRDWCQxMwsD7TTOxfGrFDNLsBvuJR76tY2LhxUQkLc7A2VYBGkx+neSw4iAft1ALv04tUNS601Ipuv/bTtDw9w==}
+  '@mlightcad/geometry-engine@3.2.6':
+    resolution: {integrity: sha512-dBT8MHjd9A1RtMr5B/BY3/VFmis6gwBp3JPLKx2buKhJ32R4AqqcSCHsbQosB5V9mr3hF53+5djr83cjgbv6pA==}
     peerDependencies:
-      '@mlightcad/common': 1.3.0
+      '@mlightcad/common': 1.4.6
 
-  '@mlightcad/graphic-interface@3.2.0':
-    resolution: {integrity: sha512-NCKAa2DAZATNL8NGYY1QTpnk3j8wx0dk50cTieHTJ5D1e5YW/q4++u+h/+0d84Pa/11woLkO5IJogcXAfT2H3g==}
+  '@mlightcad/graphic-interface@3.3.6':
+    resolution: {integrity: sha512-xg8Vaj+7/gT9d70Zv5WO8nZ24nOu/lLGAmqBWm20QB5Oye2/jo0XjOk0pKf8z2wf2hMCRu9LiijPnV1iAc6KmQ==}
     peerDependencies:
-      '@mlightcad/common': 1.3.0
-      '@mlightcad/geometry-engine': 3.1.3
+      '@mlightcad/common': 1.4.6
+      '@mlightcad/geometry-engine': 3.2.6
 
-  '@mlightcad/libredwg-converter@3.4.0':
-    resolution: {integrity: sha512-8j+i+BO8o1LgwBWITXOqgFBwSLQiGDEQT1fcbSo+3rmPz+gfKjTEjAzHHt0hQKEcfQPquNwSuo1hDSBBvX8dqw==}
+  '@mlightcad/libredwg-converter@3.5.6':
+    resolution: {integrity: sha512-TEF8527fY7MZM6kHUIMGxpytI6Jl3eIvBmlTi+z0H9k3m70PIomutN+r+RCyXAXw2dJvhfzPmc1c1uCN8kxYxg==}
     peerDependencies:
-      '@mlightcad/data-model': 1.6.0
+      '@mlightcad/data-model': 1.7.6
 
-  '@mlightcad/libredwg-web@0.4.5':
-    resolution: {integrity: sha512-dEOEnSE0M1PDoLcarrjaS3nBCyA3VTCeMSBSmg4Hr0XcnHI4oAlwzp3MdBPllqqi2oMDNw/Am2/wu80qGiYQzQ==}
+  '@mlightcad/libredwg-web@0.6.6':
+    resolution: {integrity: sha512-Xv8uhe0M7etEW3mHDOWYhZx5qqLXLO/702H32bf22J9veQLjjxO33aNQfo37tgQs3CnaxkSMdeRvVrQCQwmigw==}
 
   '@parcel/watcher-android-arm64@2.5.1':
     resolution: {integrity: sha512-KF8+j9nNbUN8vzOFDpRMsaKBHZ/mcjEjMToVMJOhTozkDonQFFrRcfdLWn6yWKCmJKmdVxSgHiYvTCef4/qcBA==}
@@ -369,9 +369,6 @@ packages:
   '@parcel/watcher@2.5.1':
     resolution: {integrity: sha512-dfUnCxiN9H4ap84DvD2ubjw+3vUNpstxa0TneY/Paat8a3R4uQZDLSvWjmznAY/DoahqTHl9V46HF/Zs3F29pg==}
     engines: {node: '>= 10.0.0'}
-
-  '@popperjs/core@2.11.8':
-    resolution: {integrity: sha512-P1st0aksCrn9sGZhp8GMYwBnQsbvAWsZAX44oXNNvLHGqAOcoVxmjZiohstwQ7SqKnbR47akdNi+uleWD8+g6A==}
 
   '@rollup/rollup-android-arm-eabi@4.46.2':
     resolution: {integrity: sha512-Zj3Hl6sN34xJtMv7Anwb5Gu01yujyE/cLBDB2gnHTAHaWS1Z38L7kuSG+oAh0giZMqG060f/YBStXtMH6FvPMA==}
@@ -888,12 +885,6 @@ packages:
     peerDependencies:
       vue: ^3.0.0
 
-  vue-pick-colors@1.8.0:
-    resolution: {integrity: sha512-lIP28A1BZEPp0v0Y6m9lNbsC6jNM2LP+Dc2tJbUXiNRvDgXqBMe/msX3svqjspV4B+SZdPAjx75JY2zem0hA2Q==}
-    peerDependencies:
-      '@popperjs/core': ^2.11.2
-      vue: ^3.2.26
-
   vue-tsc@2.2.12:
     resolution: {integrity: sha512-P7OP77b2h/Pmk+lZdJ0YWs+5tJ6J2+uOQPo7tlBnY44QqQSPYvS0qVT4wqDJgwrZaLe47etJLLQRFia71GYITw==}
     hasBin: true
@@ -1033,40 +1024,37 @@ snapshots:
 
   '@lukeed/csprng@1.1.0': {}
 
-  '@mlightcad/cad-simple-viewer@1.4.1(@mlightcad/data-model@1.6.0)(lodash-es@4.17.21)(three@0.172.0)':
+  '@mlightcad/cad-simple-viewer@1.4.11(@mlightcad/data-model@1.7.6)(lodash-es@4.17.21)(three@0.172.0)':
     dependencies:
-      '@mlightcad/data-model': 1.6.0
-      '@mlightcad/libredwg-converter': 3.4.0(@mlightcad/data-model@1.6.0)
+      '@mlightcad/data-model': 1.7.6
+      '@mlightcad/libredwg-converter': 3.5.6(@mlightcad/data-model@1.7.6)
       lodash-es: 4.17.21
       mitt: 3.0.1
       rbush: 4.0.1
       three: 0.172.0
 
-  '@mlightcad/cad-viewer@1.4.1(@mlightcad/cad-simple-viewer@1.4.1(@mlightcad/data-model@1.6.0)(lodash-es@4.17.21)(three@0.172.0))(@mlightcad/data-model@1.6.0)(@popperjs/core@2.11.8)(@vueuse/core@11.3.0(vue@3.5.18(typescript@5.9.2)))(element-plus@2.13.0(vue@3.5.18(typescript@5.9.2)))(vue-i18n@10.0.8(vue@3.5.18(typescript@5.9.2)))(vue@3.5.18(typescript@5.9.2))':
+  '@mlightcad/cad-viewer@1.4.11(@mlightcad/cad-simple-viewer@1.4.11(@mlightcad/data-model@1.7.6)(lodash-es@4.17.21)(three@0.172.0))(@mlightcad/data-model@1.7.6)(@vueuse/core@11.3.0(vue@3.5.18(typescript@5.9.2)))(element-plus@2.13.0(vue@3.5.18(typescript@5.9.2)))(vue-i18n@10.0.8(vue@3.5.18(typescript@5.9.2)))(vue@3.5.18(typescript@5.9.2))':
     dependencies:
       '@element-plus/icons-vue': 2.3.2(vue@3.5.18(typescript@5.9.2))
-      '@mlightcad/cad-simple-viewer': 1.4.1(@mlightcad/data-model@1.6.0)(lodash-es@4.17.21)(three@0.172.0)
-      '@mlightcad/data-model': 1.6.0
+      '@mlightcad/cad-simple-viewer': 1.4.11(@mlightcad/data-model@1.7.6)(lodash-es@4.17.21)(three@0.172.0)
+      '@mlightcad/data-model': 1.7.6
       '@vueuse/core': 11.3.0(vue@3.5.18(typescript@5.9.2))
       element-plus: 2.13.0(vue@3.5.18(typescript@5.9.2))
       lodash-es: 4.17.21
       three: 0.172.0
       vue: 3.5.18(typescript@5.9.2)
       vue-i18n: 10.0.8(vue@3.5.18(typescript@5.9.2))
-      vue-pick-colors: 1.8.0(@popperjs/core@2.11.8)(vue@3.5.18(typescript@5.9.2))
-    transitivePeerDependencies:
-      - '@popperjs/core'
 
-  '@mlightcad/common@1.3.0':
+  '@mlightcad/common@1.4.6':
     dependencies:
       loglevel: 1.9.2
 
-  '@mlightcad/data-model@1.6.0':
+  '@mlightcad/data-model@1.7.6':
     dependencies:
-      '@mlightcad/common': 1.3.0
+      '@mlightcad/common': 1.4.6
       '@mlightcad/dxf-json': 1.0.10
-      '@mlightcad/geometry-engine': 3.1.3(@mlightcad/common@1.3.0)
-      '@mlightcad/graphic-interface': 3.2.0(@mlightcad/common@1.3.0)(@mlightcad/geometry-engine@3.1.3(@mlightcad/common@1.3.0))
+      '@mlightcad/geometry-engine': 3.2.6(@mlightcad/common@1.4.6)
+      '@mlightcad/graphic-interface': 3.3.6(@mlightcad/common@1.4.6)(@mlightcad/geometry-engine@3.2.6(@mlightcad/common@1.4.6))
       iconv-lite: 0.7.0
       uid: 2.0.2
 
@@ -1074,22 +1062,22 @@ snapshots:
     dependencies:
       '@fxts/core': 1.15.0
 
-  '@mlightcad/geometry-engine@3.1.3(@mlightcad/common@1.3.0)':
+  '@mlightcad/geometry-engine@3.2.6(@mlightcad/common@1.4.6)':
     dependencies:
-      '@mlightcad/common': 1.3.0
+      '@mlightcad/common': 1.4.6
       verb-nurbs-web: 2.1.3
 
-  '@mlightcad/graphic-interface@3.2.0(@mlightcad/common@1.3.0)(@mlightcad/geometry-engine@3.1.3(@mlightcad/common@1.3.0))':
+  '@mlightcad/graphic-interface@3.3.6(@mlightcad/common@1.4.6)(@mlightcad/geometry-engine@3.2.6(@mlightcad/common@1.4.6))':
     dependencies:
-      '@mlightcad/common': 1.3.0
-      '@mlightcad/geometry-engine': 3.1.3(@mlightcad/common@1.3.0)
+      '@mlightcad/common': 1.4.6
+      '@mlightcad/geometry-engine': 3.2.6(@mlightcad/common@1.4.6)
 
-  '@mlightcad/libredwg-converter@3.4.0(@mlightcad/data-model@1.6.0)':
+  '@mlightcad/libredwg-converter@3.5.6(@mlightcad/data-model@1.7.6)':
     dependencies:
-      '@mlightcad/data-model': 1.6.0
-      '@mlightcad/libredwg-web': 0.4.5
+      '@mlightcad/data-model': 1.7.6
+      '@mlightcad/libredwg-web': 0.6.6
 
-  '@mlightcad/libredwg-web@0.4.5': {}
+  '@mlightcad/libredwg-web@0.6.6': {}
 
   '@parcel/watcher-android-arm64@2.5.1':
     optional: true
@@ -1151,8 +1139,6 @@ snapshots:
       '@parcel/watcher-win32-ia32': 2.5.1
       '@parcel/watcher-win32-x64': 2.5.1
     optional: true
-
-  '@popperjs/core@2.11.8': {}
 
   '@rollup/rollup-android-arm-eabi@4.46.2':
     optional: true
@@ -1676,11 +1662,6 @@ snapshots:
       '@intlify/core-base': 10.0.8
       '@intlify/shared': 10.0.8
       '@vue/devtools-api': 6.6.4
-      vue: 3.5.18(typescript@5.9.2)
-
-  vue-pick-colors@1.8.0(@popperjs/core@2.11.8)(vue@3.5.18(typescript@5.9.2)):
-    dependencies:
-      '@popperjs/core': 2.11.8
       vue: 3.5.18(typescript@5.9.2)
 
   vue-tsc@2.2.12(typescript@5.9.2):
