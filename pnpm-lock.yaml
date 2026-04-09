@@ -12,14 +12,14 @@ importers:
         specifier: ^2.3.1
         version: 2.3.2(vue@3.5.18(typescript@5.9.2))
       '@mlightcad/cad-simple-viewer':
-        specifier: 1.4.11
-        version: 1.4.11(@mlightcad/data-model@1.7.6)(lodash-es@4.17.21)(three@0.172.0)
+        specifier: 1.4.12
+        version: 1.4.12(@mlightcad/data-model@1.7.16)(lodash-es@4.17.21)(three@0.172.0)
       '@mlightcad/cad-viewer':
-        specifier: 1.4.11
-        version: 1.4.11(@mlightcad/cad-simple-viewer@1.4.11(@mlightcad/data-model@1.7.6)(lodash-es@4.17.21)(three@0.172.0))(@mlightcad/data-model@1.7.6)(@vueuse/core@11.3.0(vue@3.5.18(typescript@5.9.2)))(element-plus@2.13.0(vue@3.5.18(typescript@5.9.2)))(vue-i18n@10.0.8(vue@3.5.18(typescript@5.9.2)))(vue@3.5.18(typescript@5.9.2))
+        specifier: 1.4.12
+        version: 1.4.12(@mlightcad/cad-simple-viewer@1.4.12(@mlightcad/data-model@1.7.16)(lodash-es@4.17.21)(three@0.172.0))(@mlightcad/data-model@1.7.16)(@vueuse/core@11.3.0(vue@3.5.18(typescript@5.9.2)))(element-plus@2.13.0(vue@3.5.18(typescript@5.9.2)))(vue-i18n@10.0.8(vue@3.5.18(typescript@5.9.2)))(vue@3.5.18(typescript@5.9.2))
       '@mlightcad/data-model':
-        specifier: 1.7.6
-        version: 1.7.6
+        specifier: 1.7.16
+        version: 1.7.16
       element-plus:
         specifier: ^2.12.0
         version: 2.13.0(vue@3.5.18(typescript@5.9.2))
@@ -243,50 +243,50 @@ packages:
     resolution: {integrity: sha512-Z7C/xXCiGWsg0KuKsHTKJxbWhpI3Vs5GwLfOean7MGyVFGqdRgBbAjOCh6u4bbjPc/8MJ2pZmK/0DLdCbivLDA==}
     engines: {node: '>=8'}
 
-  '@mlightcad/cad-simple-viewer@1.4.11':
-    resolution: {integrity: sha512-TcArrPcaDCX4Ru9LiDAi/N/vIeXvb3b+9FssyYpGQ+r8T9T38AGOSmIScbleqhI3PNDn8i7YOmWyvwAqDXC8PQ==}
+  '@mlightcad/cad-simple-viewer@1.4.12':
+    resolution: {integrity: sha512-UKSH/SbhDimHAgtxOjE/hOnRQNQ5aejRLP/Y87rTCZSF+4UocHoIF/m7aHiL1EK6T+QdLeHXvXu5KybNucQHHw==}
     peerDependencies:
-      '@mlightcad/data-model': ^1.7.6
+      '@mlightcad/data-model': 1.7.16
       lodash-es: 4.17.21
-      three: ^0.172.0
+      three: 0.172.0
 
-  '@mlightcad/cad-viewer@1.4.11':
-    resolution: {integrity: sha512-8yOy02CC1/sglGlgEu4FQyAY55JtxZUlGULfX86AJ5weUODhMItWmd1TMcqCLjw1CCUWt9SEJpSDhGo9E7nYwA==}
+  '@mlightcad/cad-viewer@1.4.12':
+    resolution: {integrity: sha512-DyRH7zFQVU5ApEQTsWF5K2T+DqC1I3Ujg6CqyjLO82iexT1EXvhAA5F9yZu4Y9HtikBPg+lxcWk5JjPPzwcn3A==}
     peerDependencies:
-      '@mlightcad/cad-simple-viewer': 1.4.11
-      '@mlightcad/data-model': ^1.7.6
+      '@mlightcad/cad-simple-viewer': 1.4.12
+      '@mlightcad/data-model': 1.7.16
       '@vueuse/core': ^11.1.0
-      element-plus: ^2.12.0
-      vue: ^3.4.21
-      vue-i18n: ^10.0.1
+      element-plus: 2.13.6
+      vue: 3.5.31
+      vue-i18n: 10.0.8
 
-  '@mlightcad/common@1.4.6':
-    resolution: {integrity: sha512-COTCIgFrJ2dSZvOMnbZUKLL33WxlCRukmsdbhtDKm6SmHesE17NkPd6HCjmpsVBpMn9kqp/EjF/XzrhyPZJjiw==}
+  '@mlightcad/common@1.4.16':
+    resolution: {integrity: sha512-0ApgFI11z2yywADawtOf94WvZYJEIN1K0Vw9qqXrHjFKFhwpvx4c2JD3JV1Y3D0D3wwhvFuU4IvPzKGpjffKUA==}
 
-  '@mlightcad/data-model@1.7.6':
-    resolution: {integrity: sha512-mDbiDjVIkmMR14ySRX5Ta++PsZWuh+LQlxwu5cjm6lYeI7Zm/fw22+iE6wKR3cvJf5gJVPboDlCpNC55mhrUpA==}
+  '@mlightcad/data-model@1.7.16':
+    resolution: {integrity: sha512-7Vruaii8z4pVtG3MSqQynkbdealGgyZypYLQbUbmf3tzU7XS/WRz1yVtCdVPbDU4RKHPBffOUVmSz/6pYaJMUA==}
 
-  '@mlightcad/dxf-json@1.0.10':
-    resolution: {integrity: sha512-KY2E49y9DHPb0LoEi2Uz2cgmtVFgiNNNBn1DsWYvqn4VLD7itr2+GE51yBZLAzG1SFXiwqPjp5mprU6fI7kysg==}
+  '@mlightcad/dxf-json@1.1.3':
+    resolution: {integrity: sha512-XslMIrowLI9VOs84/x4SmcsKSdNxSSGyEVrhJTFiSsB3CghtU2tzOmvDoCHCPa4jYCmYkQ1GK/rgQ+89wXXPgw==}
 
-  '@mlightcad/geometry-engine@3.2.6':
-    resolution: {integrity: sha512-dBT8MHjd9A1RtMr5B/BY3/VFmis6gwBp3JPLKx2buKhJ32R4AqqcSCHsbQosB5V9mr3hF53+5djr83cjgbv6pA==}
+  '@mlightcad/geometry-engine@3.2.16':
+    resolution: {integrity: sha512-xDOTNJZ78j6POyKdIGKXoK23o01jM97A2F6kRNtsFUD8r8wWA0nA4itS0OdUoDI4EI5/4bZZx8RKQ/g2nSO3kQ==}
     peerDependencies:
-      '@mlightcad/common': 1.4.6
+      '@mlightcad/common': 1.4.16
 
-  '@mlightcad/graphic-interface@3.3.6':
-    resolution: {integrity: sha512-xg8Vaj+7/gT9d70Zv5WO8nZ24nOu/lLGAmqBWm20QB5Oye2/jo0XjOk0pKf8z2wf2hMCRu9LiijPnV1iAc6KmQ==}
+  '@mlightcad/graphic-interface@3.3.16':
+    resolution: {integrity: sha512-1v30K/wKp0RBMCsRlq++xiTpPdszWAcFZppyGUFziVkgdIqLu7Zc0kHq6DY705C8VFCY5rt8LOt7a5tPz1ZfqQ==}
     peerDependencies:
-      '@mlightcad/common': 1.4.6
-      '@mlightcad/geometry-engine': 3.2.6
+      '@mlightcad/common': 1.4.16
+      '@mlightcad/geometry-engine': 3.2.16
 
-  '@mlightcad/libredwg-converter@3.5.6':
-    resolution: {integrity: sha512-TEF8527fY7MZM6kHUIMGxpytI6Jl3eIvBmlTi+z0H9k3m70PIomutN+r+RCyXAXw2dJvhfzPmc1c1uCN8kxYxg==}
+  '@mlightcad/libredwg-converter@3.5.16':
+    resolution: {integrity: sha512-JYubImkEBDQJRRT2zsAUfMsyvaMQnrX7koZsXah1iP5Mei9qvvr0F+RIdX/oMJ+AIlDLNuYWcIChO+CYpnvkzA==}
     peerDependencies:
-      '@mlightcad/data-model': 1.7.6
+      '@mlightcad/data-model': 1.7.16
 
-  '@mlightcad/libredwg-web@0.6.6':
-    resolution: {integrity: sha512-Xv8uhe0M7etEW3mHDOWYhZx5qqLXLO/702H32bf22J9veQLjjxO33aNQfo37tgQs3CnaxkSMdeRvVrQCQwmigw==}
+  '@mlightcad/libredwg-web@0.6.9':
+    resolution: {integrity: sha512-BZ713nAwuMcWUcbHuDYOqxrQTHBvT8lw3Eu6UedRYHo/UuxcZQloppJTV+uXtoJLFCtFJI5Evv4gLHmzjeDNIA==}
 
   '@parcel/watcher-android-arm64@2.5.1':
     resolution: {integrity: sha512-KF8+j9nNbUN8vzOFDpRMsaKBHZ/mcjEjMToVMJOhTozkDonQFFrRcfdLWn6yWKCmJKmdVxSgHiYvTCef4/qcBA==}
@@ -317,36 +317,42 @@ packages:
     engines: {node: '>= 10.0.0'}
     cpu: [arm]
     os: [linux]
+    libc: [glibc]
 
   '@parcel/watcher-linux-arm-musl@2.5.1':
     resolution: {integrity: sha512-6E+m/Mm1t1yhB8X412stiKFG3XykmgdIOqhjWj+VL8oHkKABfu/gjFj8DvLrYVHSBNC+/u5PeNrujiSQ1zwd1Q==}
     engines: {node: '>= 10.0.0'}
     cpu: [arm]
     os: [linux]
+    libc: [musl]
 
   '@parcel/watcher-linux-arm64-glibc@2.5.1':
     resolution: {integrity: sha512-LrGp+f02yU3BN9A+DGuY3v3bmnFUggAITBGriZHUREfNEzZh/GO06FF5u2kx8x+GBEUYfyTGamol4j3m9ANe8w==}
     engines: {node: '>= 10.0.0'}
     cpu: [arm64]
     os: [linux]
+    libc: [glibc]
 
   '@parcel/watcher-linux-arm64-musl@2.5.1':
     resolution: {integrity: sha512-cFOjABi92pMYRXS7AcQv9/M1YuKRw8SZniCDw0ssQb/noPkRzA+HBDkwmyOJYp5wXcsTrhxO0zq1U11cK9jsFg==}
     engines: {node: '>= 10.0.0'}
     cpu: [arm64]
     os: [linux]
+    libc: [musl]
 
   '@parcel/watcher-linux-x64-glibc@2.5.1':
     resolution: {integrity: sha512-GcESn8NZySmfwlTsIur+49yDqSny2IhPeZfXunQi48DMugKeZ7uy1FX83pO0X22sHntJ4Ub+9k34XQCX+oHt2A==}
     engines: {node: '>= 10.0.0'}
     cpu: [x64]
     os: [linux]
+    libc: [glibc]
 
   '@parcel/watcher-linux-x64-musl@2.5.1':
     resolution: {integrity: sha512-n0E2EQbatQ3bXhcH2D1XIAANAcTZkQICBPVaxMeaCVBtOpBZpWJuf7LwyWPSBDITb7In8mqQgJ7gH8CILCURXg==}
     engines: {node: '>= 10.0.0'}
     cpu: [x64]
     os: [linux]
+    libc: [musl]
 
   '@parcel/watcher-win32-arm64@2.5.1':
     resolution: {integrity: sha512-RFzklRvmc3PkjKjry3hLF9wD7ppR4AKcWNzH7kXR7GUe0Igb3Nz8fyPwtZCSquGrhU5HhUNDr/mKBqj7tqA2Vw==}
@@ -404,56 +410,67 @@ packages:
     resolution: {integrity: sha512-EtP8aquZ0xQg0ETFcxUbU71MZlHaw9MChwrQzatiE8U/bvi5uv/oChExXC4mWhjiqK7azGJBqU0tt5H123SzVA==}
     cpu: [arm]
     os: [linux]
+    libc: [glibc]
 
   '@rollup/rollup-linux-arm-musleabihf@4.46.2':
     resolution: {integrity: sha512-qO7F7U3u1nfxYRPM8HqFtLd+raev2K137dsV08q/LRKRLEc7RsiDWihUnrINdsWQxPR9jqZ8DIIZ1zJJAm5PjQ==}
     cpu: [arm]
     os: [linux]
+    libc: [musl]
 
   '@rollup/rollup-linux-arm64-gnu@4.46.2':
     resolution: {integrity: sha512-3dRaqLfcOXYsfvw5xMrxAk9Lb1f395gkoBYzSFcc/scgRFptRXL9DOaDpMiehf9CO8ZDRJW2z45b6fpU5nwjng==}
     cpu: [arm64]
     os: [linux]
+    libc: [glibc]
 
   '@rollup/rollup-linux-arm64-musl@4.46.2':
     resolution: {integrity: sha512-fhHFTutA7SM+IrR6lIfiHskxmpmPTJUXpWIsBXpeEwNgZzZZSg/q4i6FU4J8qOGyJ0TR+wXBwx/L7Ho9z0+uDg==}
     cpu: [arm64]
     os: [linux]
+    libc: [musl]
 
   '@rollup/rollup-linux-loongarch64-gnu@4.46.2':
     resolution: {integrity: sha512-i7wfGFXu8x4+FRqPymzjD+Hyav8l95UIZ773j7J7zRYc3Xsxy2wIn4x+llpunexXe6laaO72iEjeeGyUFmjKeA==}
     cpu: [loong64]
     os: [linux]
+    libc: [glibc]
 
   '@rollup/rollup-linux-ppc64-gnu@4.46.2':
     resolution: {integrity: sha512-B/l0dFcHVUnqcGZWKcWBSV2PF01YUt0Rvlurci5P+neqY/yMKchGU8ullZvIv5e8Y1C6wOn+U03mrDylP5q9Yw==}
     cpu: [ppc64]
     os: [linux]
+    libc: [glibc]
 
   '@rollup/rollup-linux-riscv64-gnu@4.46.2':
     resolution: {integrity: sha512-32k4ENb5ygtkMwPMucAb8MtV8olkPT03oiTxJbgkJa7lJ7dZMr0GCFJlyvy+K8iq7F/iuOr41ZdUHaOiqyR3iQ==}
     cpu: [riscv64]
     os: [linux]
+    libc: [glibc]
 
   '@rollup/rollup-linux-riscv64-musl@4.46.2':
     resolution: {integrity: sha512-t5B2loThlFEauloaQkZg9gxV05BYeITLvLkWOkRXogP4qHXLkWSbSHKM9S6H1schf/0YGP/qNKtiISlxvfmmZw==}
     cpu: [riscv64]
     os: [linux]
+    libc: [musl]
 
   '@rollup/rollup-linux-s390x-gnu@4.46.2':
     resolution: {integrity: sha512-YKjekwTEKgbB7n17gmODSmJVUIvj8CX7q5442/CK80L8nqOUbMtf8b01QkG3jOqyr1rotrAnW6B/qiHwfcuWQA==}
     cpu: [s390x]
     os: [linux]
+    libc: [glibc]
 
   '@rollup/rollup-linux-x64-gnu@4.46.2':
     resolution: {integrity: sha512-Jj5a9RUoe5ra+MEyERkDKLwTXVu6s3aACP51nkfnK9wJTraCC8IMe3snOfALkrjTYd2G1ViE1hICj0fZ7ALBPA==}
     cpu: [x64]
     os: [linux]
+    libc: [glibc]
 
   '@rollup/rollup-linux-x64-musl@4.46.2':
     resolution: {integrity: sha512-7kX69DIrBeD7yNp4A5b81izs8BqoZkCIaxQaOpumcJ1S/kmqNFjPhDu1LHeVXv0SexfHQv5cqHsxLOjETuqDuA==}
     cpu: [x64]
     os: [linux]
+    libc: [musl]
 
   '@rollup/rollup-win32-arm64-msvc@4.46.2':
     resolution: {integrity: sha512-wiJWMIpeaak/jsbaq2HMh/rzZxHVW1rU6coyeNNpMwk5isiPjSTx0a4YLSlYDwBH/WBvLz+EtsNqQScZTLJy3g==}
@@ -579,9 +596,6 @@ packages:
     resolution: {integrity: sha512-Ceh+7ox5qe7LJuLHoY0feh3pHuUDHAcRUeyL2VYghZwfpkNIy/+8Ocg0a3UuSoYzavmylwuLWQOf3hl0jjMMIw==}
     engines: {node: '>=8'}
 
-  bindings@1.5.0:
-    resolution: {integrity: sha512-p2q/t/mhvuOj/UeLlV6566GD/guowlr0hHxClI0W9m7MWYkL1F0hLo+0Aexs9HSPCtR1SXQ0TD3MMKrXZajbiQ==}
-
   brace-expansion@2.0.2:
     resolution: {integrity: sha512-Jt0vHyM+jmUBqojB7E1NIYadt0vI0Qxjxd2TErW94wDz+E2LAm5vKMXXwg6ZZBTHPuUlDgQHKXvjGBdfcF1ZDQ==}
 
@@ -636,9 +650,6 @@ packages:
     peerDependenciesMeta:
       picomatch:
         optional: true
-
-  file-uri-to-path@1.0.0:
-    resolution: {integrity: sha512-0Zt+s3L7Vf1biwWZ29aARiVYLx7iMGnEUl9x33fbB/j3jR81u/O2LbqK+Bm1CDSNDKVtJ/YjwY7TUd5SkeLQLw==}
 
   fill-range@7.1.1:
     resolution: {integrity: sha512-YsGpe3WHLK8ZYi4tWDg2Jy3ebRz2rXowDxnld4bkQB00cc/1Zw9AWnC0i9ztDJitivtQvaI9KaLyKrc+hBW0yg==}
@@ -726,9 +737,6 @@ packages:
 
   muggle-string@0.4.1:
     resolution: {integrity: sha512-VNTrAak/KhO2i8dqqnqnAHOa3cYBwXEZe9h+D5h/1ZqFSTEFHdM65lR7RoIqq3tBBYavsOXV84NoHXZ0AkPyqQ==}
-
-  nan@2.24.0:
-    resolution: {integrity: sha512-Vpf9qnVW1RaDkoNKFUvfxqAbtI8ncb8OJlqZ9wwpXzWPEsvsB1nvdUi6oYrHIkQ1Y/tMDnr1h4nczS0VB9Xykg==}
 
   nanoid@3.3.11:
     resolution: {integrity: sha512-N8SpfPUnUp1bK+PMYW8qSWdl9U+wwNWI4QKxOYDy9JAro3WMX7p2OeVRF9v+347pnakNevPmiHhNmZ2HbFA76w==}
@@ -825,9 +833,6 @@ packages:
     resolution: {integrity: sha512-gptHNQghINnc/vTGIk0SOFGFNXw7JVrlRUtConJRlvaw6DuX0wO5Jeko9sWrMBhh+PsYAZ7oXAiOnf/UKogyiw==}
     engines: {node: '>= 10.0.0'}
 
-  verb-nurbs-web@2.1.3:
-    resolution: {integrity: sha512-2PvI2bx7dn0r3kWtk+JuDIDZ+p7I5Piu8y6/ZNhUVpilOyHKK1nNzLHtgown+dFOmBnKnuAKIMh1xn/5kzrxZA==}
-
   vite-plugin-static-copy@3.1.1:
     resolution: {integrity: sha512-oR53SkL5cX4KT1t18E/xU50vJDo0N8oaHza4EMk0Fm+2/u6nQivxavOfrDk3udWj+dizRizB/QnBvJOOQrTTAQ==}
     engines: {node: ^18.0.0 || >=20.0.0}
@@ -898,10 +903,6 @@ packages:
     peerDependenciesMeta:
       typescript:
         optional: true
-
-  webworker-threads@0.7.17:
-    resolution: {integrity: sha512-Y2w2aXBbDLk9IzTEb9u+MsODC3s4YlGI7g4h0t+1OAwIO8yBI9rQL35ZYlyayiCuWu1dZMH/P7kGU8OwW7YsyA==}
-    engines: {node: '>= 0.10.16'}
 
 snapshots:
 
@@ -1024,20 +1025,20 @@ snapshots:
 
   '@lukeed/csprng@1.1.0': {}
 
-  '@mlightcad/cad-simple-viewer@1.4.11(@mlightcad/data-model@1.7.6)(lodash-es@4.17.21)(three@0.172.0)':
+  '@mlightcad/cad-simple-viewer@1.4.12(@mlightcad/data-model@1.7.16)(lodash-es@4.17.21)(three@0.172.0)':
     dependencies:
-      '@mlightcad/data-model': 1.7.6
-      '@mlightcad/libredwg-converter': 3.5.6(@mlightcad/data-model@1.7.6)
+      '@mlightcad/data-model': 1.7.16
+      '@mlightcad/libredwg-converter': 3.5.16(@mlightcad/data-model@1.7.16)
       lodash-es: 4.17.21
       mitt: 3.0.1
       rbush: 4.0.1
       three: 0.172.0
 
-  '@mlightcad/cad-viewer@1.4.11(@mlightcad/cad-simple-viewer@1.4.11(@mlightcad/data-model@1.7.6)(lodash-es@4.17.21)(three@0.172.0))(@mlightcad/data-model@1.7.6)(@vueuse/core@11.3.0(vue@3.5.18(typescript@5.9.2)))(element-plus@2.13.0(vue@3.5.18(typescript@5.9.2)))(vue-i18n@10.0.8(vue@3.5.18(typescript@5.9.2)))(vue@3.5.18(typescript@5.9.2))':
+  '@mlightcad/cad-viewer@1.4.12(@mlightcad/cad-simple-viewer@1.4.12(@mlightcad/data-model@1.7.16)(lodash-es@4.17.21)(three@0.172.0))(@mlightcad/data-model@1.7.16)(@vueuse/core@11.3.0(vue@3.5.18(typescript@5.9.2)))(element-plus@2.13.0(vue@3.5.18(typescript@5.9.2)))(vue-i18n@10.0.8(vue@3.5.18(typescript@5.9.2)))(vue@3.5.18(typescript@5.9.2))':
     dependencies:
       '@element-plus/icons-vue': 2.3.2(vue@3.5.18(typescript@5.9.2))
-      '@mlightcad/cad-simple-viewer': 1.4.11(@mlightcad/data-model@1.7.6)(lodash-es@4.17.21)(three@0.172.0)
-      '@mlightcad/data-model': 1.7.6
+      '@mlightcad/cad-simple-viewer': 1.4.12(@mlightcad/data-model@1.7.16)(lodash-es@4.17.21)(three@0.172.0)
+      '@mlightcad/data-model': 1.7.16
       '@vueuse/core': 11.3.0(vue@3.5.18(typescript@5.9.2))
       element-plus: 2.13.0(vue@3.5.18(typescript@5.9.2))
       lodash-es: 4.17.21
@@ -1045,39 +1046,38 @@ snapshots:
       vue: 3.5.18(typescript@5.9.2)
       vue-i18n: 10.0.8(vue@3.5.18(typescript@5.9.2))
 
-  '@mlightcad/common@1.4.6':
+  '@mlightcad/common@1.4.16':
     dependencies:
       loglevel: 1.9.2
 
-  '@mlightcad/data-model@1.7.6':
+  '@mlightcad/data-model@1.7.16':
     dependencies:
-      '@mlightcad/common': 1.4.6
-      '@mlightcad/dxf-json': 1.0.10
-      '@mlightcad/geometry-engine': 3.2.6(@mlightcad/common@1.4.6)
-      '@mlightcad/graphic-interface': 3.3.6(@mlightcad/common@1.4.6)(@mlightcad/geometry-engine@3.2.6(@mlightcad/common@1.4.6))
+      '@mlightcad/common': 1.4.16
+      '@mlightcad/dxf-json': 1.1.3
+      '@mlightcad/geometry-engine': 3.2.16(@mlightcad/common@1.4.16)
+      '@mlightcad/graphic-interface': 3.3.16(@mlightcad/common@1.4.16)(@mlightcad/geometry-engine@3.2.16(@mlightcad/common@1.4.16))
       iconv-lite: 0.7.0
       uid: 2.0.2
 
-  '@mlightcad/dxf-json@1.0.10':
+  '@mlightcad/dxf-json@1.1.3':
     dependencies:
       '@fxts/core': 1.15.0
 
-  '@mlightcad/geometry-engine@3.2.6(@mlightcad/common@1.4.6)':
+  '@mlightcad/geometry-engine@3.2.16(@mlightcad/common@1.4.16)':
     dependencies:
-      '@mlightcad/common': 1.4.6
-      verb-nurbs-web: 2.1.3
+      '@mlightcad/common': 1.4.16
 
-  '@mlightcad/graphic-interface@3.3.6(@mlightcad/common@1.4.6)(@mlightcad/geometry-engine@3.2.6(@mlightcad/common@1.4.6))':
+  '@mlightcad/graphic-interface@3.3.16(@mlightcad/common@1.4.16)(@mlightcad/geometry-engine@3.2.16(@mlightcad/common@1.4.16))':
     dependencies:
-      '@mlightcad/common': 1.4.6
-      '@mlightcad/geometry-engine': 3.2.6(@mlightcad/common@1.4.6)
+      '@mlightcad/common': 1.4.16
+      '@mlightcad/geometry-engine': 3.2.16(@mlightcad/common@1.4.16)
 
-  '@mlightcad/libredwg-converter@3.5.6(@mlightcad/data-model@1.7.6)':
+  '@mlightcad/libredwg-converter@3.5.16(@mlightcad/data-model@1.7.16)':
     dependencies:
-      '@mlightcad/data-model': 1.7.6
-      '@mlightcad/libredwg-web': 0.6.6
+      '@mlightcad/data-model': 1.7.16
+      '@mlightcad/libredwg-web': 0.6.9
 
-  '@mlightcad/libredwg-web@0.6.6': {}
+  '@mlightcad/libredwg-web@0.6.9': {}
 
   '@parcel/watcher-android-arm64@2.5.1':
     optional: true
@@ -1354,11 +1354,6 @@ snapshots:
 
   binary-extensions@2.3.0: {}
 
-  bindings@1.5.0:
-    dependencies:
-      file-uri-to-path: 1.0.0
-    optional: true
-
   brace-expansion@2.0.2:
     dependencies:
       balanced-match: 1.0.2
@@ -1447,9 +1442,6 @@ snapshots:
     optionalDependencies:
       picomatch: 4.0.3
 
-  file-uri-to-path@1.0.0:
-    optional: true
-
   fill-range@7.1.1:
     dependencies:
       to-regex-range: 5.0.1
@@ -1527,9 +1519,6 @@ snapshots:
   mitt@3.0.1: {}
 
   muggle-string@0.4.1: {}
-
-  nan@2.24.0:
-    optional: true
 
   nanoid@3.3.11: {}
 
@@ -1629,10 +1618,6 @@ snapshots:
 
   universalify@2.0.1: {}
 
-  verb-nurbs-web@2.1.3:
-    optionalDependencies:
-      webworker-threads: 0.7.17
-
   vite-plugin-static-copy@3.1.1(vite@5.4.19(sass@1.90.0)):
     dependencies:
       chokidar: 3.6.0
@@ -1679,9 +1664,3 @@ snapshots:
       '@vue/shared': 3.5.18
     optionalDependencies:
       typescript: 5.9.2
-
-  webworker-threads@0.7.17:
-    dependencies:
-      bindings: 1.5.0
-      nan: 2.24.0
-    optional: true
