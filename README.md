@@ -31,10 +31,15 @@ pnpm preview
 
 Firstly, add the following dependencies into your package.json.
 
+- @mlightcad/cad-agent-plugin
+- @mlightcad/cad-html-plugin
+- @mlightcad/cad-pdf-plugin
 - @mlightcad/cad-simple-viewer
 - @mlightcad/cad-viewer
 - @mlightcad/data-model
 - element-plus
+- lodash-es
+- three
 - vue
 - vue-i18n
 
@@ -53,12 +58,14 @@ import { MlCadViewer } from '@mlightcad/cad-viewer'
 
 Finally, copy the following files to **dist/assets** folder.
 
-- ./node_modules/@mlightcad/data-model/dist/dxf-parser-worker.js
+- ./node_modules/@mlightcad/cad-simple-viewer/dist/dxf-parser-worker.js
 - ./node_modules/@mlightcad/cad-simple-viewer/dist/libredwg-parser-worker.js
 - ./node_modules/@mlightcad/cad-simple-viewer/dist/mtext-renderer-worker.js
+- ./node_modules/@mlightcad/cad-html-plugin/dist/viewer-runtime.iife.js
 
-Those files are used to parser dxf/dwg files in web worker so that UI not blocked. You can copy those files to folder **dist/assets** manually.
-However, vite-plugin-static-copy is recommended to make your life easier.
+Parser workers run DXF/DWG parsing off the main thread so the UI stays responsive.
+`viewer-runtime.iife.js` is required by the HTML export plugin.
+You can copy those files to **dist/assets** manually; `vite-plugin-static-copy` is recommended.
 
 ```typescript
 import { defineConfig } from 'vite'
@@ -71,12 +78,14 @@ export default defineConfig(() => {
     viteStaticCopy({
       targets: [
         {
-          src: './node_modules/@mlightcad/data-model/dist/dxf-parser-worker.js',
-          dest: 'assets'
+          src: './node_modules/@mlightcad/cad-simple-viewer/dist/*-worker.js',
+          dest: 'assets',
+          rename: { stripBase: true }
         },
         {
-          src: './node_modules/@mlightcad/cad-simple-viewer/dist/*-worker.js',
-          dest: 'assets'
+          src: './node_modules/@mlightcad/cad-html-plugin/dist/viewer-runtime.iife.js',
+          dest: 'assets',
+          rename: { stripBase: true }
         }
       ]
     })
