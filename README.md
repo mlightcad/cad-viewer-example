@@ -58,12 +58,12 @@ import { MlCadViewer } from '@mlightcad/cad-viewer'
 
 Finally, copy the following files to **dist/assets** folder.
 
-- ./node_modules/@mlightcad/cad-simple-viewer/dist/dxf-parser-worker.js
 - ./node_modules/@mlightcad/cad-simple-viewer/dist/libredwg-parser-worker.js
 - ./node_modules/@mlightcad/cad-simple-viewer/dist/mtext-renderer-worker.js
 - ./node_modules/@mlightcad/cad-html-plugin/dist/viewer-runtime.iife.js
 
-Parser workers run DXF/DWG parsing off the main thread so the UI stays responsive.
+DXF parsing is built into `@mlightcad/data-model` (`AcDbNativeDxfConverter`, registered by default), so the old `dxf-json` parser worker is no longer needed.
+The LibreDWG parser worker still runs DWG parsing off the main thread so the UI stays responsive; the MText renderer worker handles multiline text off the main thread.
 `viewer-runtime.iife.js` is required by the HTML export plugin.
 You can copy those files to **dist/assets** manually; `vite-plugin-static-copy` is recommended.
 
