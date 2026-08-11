@@ -205,31 +205,29 @@
 
 <script setup lang="ts">
 import { UploadFilled } from '@element-plus/icons-vue'
-import { AcApOpenViewMode, AcEdOpenMode } from '@mlightcad/cad-simple-viewer'
-import { log } from '@mlightcad/data-model'
 import type { UploadFile, UploadProps } from 'element-plus'
 import { ElIcon, ElUpload } from 'element-plus'
 import { ref } from 'vue'
 
-interface Props {
-  onFileSelect: (
+import { AcApOpenViewMode, AcEdOpenMode } from '../openOptions'
+
+const emit = defineEmits<{
+  fileSelect: [
     file: File,
     mode: AcEdOpenMode,
     useMainThreadDraw: boolean,
     drawNoPlotLayers: boolean,
     progressiveRendering: boolean,
     openViewMode: AcApOpenViewMode | undefined
-  ) => void
-  onNewDrawing?: (
+  ]
+  newDrawing: [
     mode: AcEdOpenMode,
     useMainThreadDraw: boolean,
     drawNoPlotLayers: boolean,
     progressiveRendering: boolean,
     openViewMode: AcApOpenViewMode | undefined
-  ) => void
-}
-
-const props = defineProps<Props>()
+  ]
+}>()
 
 type OpenViewModeChoice = 'auto' | AcApOpenViewMode
 
@@ -281,7 +279,8 @@ const accessModes = [
 const handleFileChange: UploadProps['onChange'] = (uploadFile: UploadFile) => {
   if (uploadFile.raw) {
     if (isValidFile(uploadFile.raw)) {
-      props.onFileSelect(
+      emit(
+        'fileSelect',
         uploadFile.raw,
         selectedMode.value,
         useMainThreadDraw.value,
@@ -294,7 +293,8 @@ const handleFileChange: UploadProps['onChange'] = (uploadFile: UploadFile) => {
 }
 
 const handleNewDrawing = () => {
-  props.onNewDrawing?.(
+  emit(
+    'newDrawing',
     selectedMode.value,
     useMainThreadDraw.value,
     drawNoPlotLayers.value,
@@ -305,7 +305,7 @@ const handleNewDrawing = () => {
 
 const beforeUpload: UploadProps['beforeUpload'] = (rawFile: File) => {
   if (!isValidFile(rawFile)) {
-    log.warn('Invalid file type. Please upload DWG or DXF files.')
+    console.warn('Invalid file type. Please upload DWG or DXF files.')
     return false
   }
   return true
