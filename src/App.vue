@@ -6,11 +6,17 @@
         @file-select="handleFileSelect"
         @new-drawing="handleNewDrawing"
       />
+      <!-- Stay on upload UI while CAD chunks load — avoids theme background flash -->
+      <div v-if="preparingViewer" class="preparing-overlay" aria-live="polite">
+        <div class="preparing-spinner" />
+        <p>Preparing viewer…</p>
+      </div>
     </div>
 
-    <!-- CAD viewer when a file is selected or a new drawing is created -->
-    <div v-else>
-      <MlCadViewer
+    <!-- Mount only after the CAD module is ready -->
+    <div v-else-if="MlCadViewer" class="viewer-screen">
+      <component
+        :is="MlCadViewer"
         locale="en"
         :local-file="store.selectedFile ?? undefined"
         :mode="selectedMode"
@@ -26,23 +32,77 @@
 </template>
 
 <script setup lang="ts">
-// import { AcApSettingManager } from '@mlightcad/cad-simple-viewer'
 import {
-  AcApDocManager,
-  AcApOpenViewMode,
-  AcEdCommandStack,
-  AcEdOpenMode
-} from '@mlightcad/cad-simple-viewer'
-import { MlCadViewer } from '@mlightcad/cad-viewer'
-import { log } from '@mlightcad/data-model'
-import { computed, nextTick, ref } from 'vue'
+  computed,
+  getCurrentInstance,
+  nextTick,
+  onMounted,
+  ref,
+  shallowRef,
+  type Component
+} from 'vue'
 
-import { AcApQuitCmd } from './commands'
 import FileUpload from './components/FileUpload.vue'
-import { initializeLocale } from './locale'
+import { AcApOpenViewMode, AcEdOpenMode } from './openOptions'
 import { store } from './store'
 
-const initialize = () => {
+const BASE_URL = 'https://cdn.jsdelivr.net/gh/mlightcad/cad-data@main/'
+
+const showViewer = computed(
+  () => store.selectedFile != null || store.isNewDrawing
+)
+
+const selectedMode = ref<AcEdOpenMode>(AcEdOpenMode.Write)
+const useMainThreadDraw = ref(false)
+const drawNoPlotLayers = ref(false)
+const progressiveRendering = ref(false)
+const openViewMode = ref<AcApOpenViewMode | undefined>(undefined)
+const preparingViewer = ref(false)
+
+const app = getCurrentInstance()!.appContext.app
+let i18nInstalled = false
+const MlCadViewer = shallowRef<Component>()
+
+const loadCadViewer = async () => {
+  if (MlCadViewer.value) return
+  const { MlCadViewer: Viewer, i18n } = await import('@mlightcad/cad-viewer')
+  if (!i18nInstalled) {
+    app.use(i18n)
+    i18nInstalled = true
+  }
+  MlCadViewer.value = Viewer as Component
+}
+
+/** Warm CAD chunks after first paint so opening a file is faster. */
+const prefetchCadStack = () => {
+  void Promise.all([
+    loadCadViewer(),
+    import('@mlightcad/cad-simple-viewer'),
+    import('./locale'),
+    import('./commands')
+  ])
+}
+
+onMounted(() => {
+  const startPrefetch = () => {
+    if (showViewer.value || preparingViewer.value) return
+    prefetchCadStack()
+  }
+
+  if (typeof window.requestIdleCallback === 'function') {
+    window.requestIdleCallback(startPrefetch, { timeout: 3000 })
+  } else {
+    window.setTimeout(startPrefetch, 500)
+  }
+})
+
+const initialize = async () => {
+  const { AcApDocManager, AcEdCommandStack } = await import(
+    '@mlightcad/cad-simple-viewer'
+  )
+  const { initializeLocale } = await import('./locale')
+  const { AcApQuitCmd } = await import('./commands')
+
   initializeLocale()
   if (import.meta.env.DEV) {
     ;(
@@ -64,26 +124,8 @@ const initialize = () => {
   )
 }
 
-// Decide whether to show command line vertical toolbar at the right side,
-// performance stats, coordinates in status bar, etc.
-// AcApSettingManager.instance.isShowCommandLine = false
-// AcApSettingManager.instance.isShowToolbar = false
-// AcApSettingManager.instance.isShowStats = false
-// AcApSettingManager.instance.isShowCoordinate = false
-
-const BASE_URL = 'https://cdn.jsdelivr.net/gh/mlightcad/cad-data@main/'
-
-const showViewer = computed(
-  () => store.selectedFile != null || store.isNewDrawing
-)
-
-const selectedMode = ref<AcEdOpenMode>(AcEdOpenMode.Write)
-const useMainThreadDraw = ref(false)
-const drawNoPlotLayers = ref(false)
-const progressiveRendering = ref(false)
-const openViewMode = ref<AcApOpenViewMode | undefined>(undefined)
-
 const createNewDrawing = async () => {
+  const { AcApDocManager } = await import('@mlightcad/cad-simple-viewer')
   const success = await AcApDocManager.instance.newDocument({
     mode: selectedMode.value,
     drawNoPlotLayers: drawNoPlotLayers.value,
@@ -91,12 +133,12 @@ const createNewDrawing = async () => {
     ...(openViewMode.value != null ? { openViewMode: openViewMode.value } : {})
   })
   if (!success) {
-    log.error('Failed to create new drawing')
+    console.error('Failed to create new drawing')
   }
 }
 
 const onViewerCreate = async () => {
-  initialize()
+  await initialize()
   if (store.isNewDrawing) {
     await nextTick()
     await createNewDrawing()
@@ -117,7 +159,20 @@ const applyOpenOptions = (
   openViewMode.value = viewMode
 }
 
-// Handle file selection from upload component
+/** Ensure CAD module is ready before leaving the upload screen. */
+const prepareThenOpen = async (open: () => void) => {
+  if (preparingViewer.value) return
+  preparingViewer.value = true
+  try {
+    await loadCadViewer()
+    open()
+  } catch (error) {
+    console.error('Failed to load CAD viewer', error)
+  } finally {
+    preparingViewer.value = false
+  }
+}
+
 const handleFileSelect = (
   file: File,
   mode: AcEdOpenMode,
@@ -126,15 +181,17 @@ const handleFileSelect = (
   enableProgressiveRendering: boolean,
   viewMode: AcApOpenViewMode | undefined
 ) => {
-  store.isNewDrawing = false
-  store.selectedFile = file
-  applyOpenOptions(
-    mode,
-    mainThreadDraw,
-    showNoPlotLayers,
-    enableProgressiveRendering,
-    viewMode
-  )
+  void prepareThenOpen(() => {
+    store.isNewDrawing = false
+    applyOpenOptions(
+      mode,
+      mainThreadDraw,
+      showNoPlotLayers,
+      enableProgressiveRendering,
+      viewMode
+    )
+    store.selectedFile = file
+  })
 }
 
 const handleNewDrawing = (
@@ -144,27 +201,32 @@ const handleNewDrawing = (
   enableProgressiveRendering: boolean,
   viewMode: AcApOpenViewMode | undefined
 ) => {
-  store.selectedFile = null
-  store.isNewDrawing = true
-  applyOpenOptions(
-    mode,
-    mainThreadDraw,
-    showNoPlotLayers,
-    enableProgressiveRendering,
-    viewMode
-  )
+  void prepareThenOpen(() => {
+    store.selectedFile = null
+    applyOpenOptions(
+      mode,
+      mainThreadDraw,
+      showNoPlotLayers,
+      enableProgressiveRendering,
+      viewMode
+    )
+    store.isNewDrawing = true
+  })
 }
 </script>
 
 <style scoped>
 #app-root {
-  height: 100vh;
   position: fixed;
+  inset: 0;
+  width: 100%;
+  height: 100%;
 }
 
 .upload-screen {
-  height: 100vh;
-  width: 100vw;
+  inset: 0;
+  width: 100%;
+  height: 100%;
   display: flex;
   justify-content: center;
   align-items: safe center;
@@ -174,9 +236,42 @@ const handleNewDrawing = (
   padding: 16px;
   box-sizing: border-box;
   position: absolute;
-  top: 0;
-  left: 0;
   z-index: 1000;
-  pointer-events: auto; /* Allow clicks on upload screen */
+  pointer-events: auto;
+}
+
+.preparing-overlay {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  background: rgba(15, 23, 42, 0.28);
+  color: #fff;
+  font-family: system-ui, sans-serif;
+  font-size: 14px;
+  z-index: 2;
+}
+
+.preparing-spinner {
+  width: 36px;
+  height: 36px;
+  border: 3px solid rgba(255, 255, 255, 0.35);
+  border-top-color: #fff;
+  border-radius: 50%;
+  animation: preparing-spin 0.8s linear infinite;
+}
+
+@keyframes preparing-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.viewer-screen {
+  width: 100%;
+  height: 100%;
 }
 </style>
