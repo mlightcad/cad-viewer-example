@@ -65,7 +65,17 @@ const MlCadViewer = shallowRef<Component>()
 
 const loadCadViewer = async () => {
   if (MlCadViewer.value) return
-  const { MlCadViewer: Viewer, i18n } = await import('@mlightcad/cad-viewer')
+  const [
+    { LIBREDWG_PARSER_WORKER_FILE },
+    { registerLibreDwgConverter },
+    { MlCadViewer: Viewer, i18n }
+  ] = await Promise.all([
+    import('@mlightcad/cad-simple-viewer'),
+    import('./registerLibreDwg'),
+    import('@mlightcad/cad-viewer')
+  ])
+  // Opt into GPL DWG support before the viewer mounts (1.6.0+).
+  registerLibreDwgConverter(`./assets/${LIBREDWG_PARSER_WORKER_FILE}`)
   if (!i18nInstalled) {
     app.use(i18n)
     i18nInstalled = true
