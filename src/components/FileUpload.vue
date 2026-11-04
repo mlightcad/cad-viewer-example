@@ -48,6 +48,12 @@
             </div>
           </el-upload>
         </div>
+
+        <p class="font-cdn-notice">
+          If you are in a region with restricted network access, enable a VPN.
+          Default fonts are hosted on GitHub and load slowly when blocked, which
+          can make drawings slow to open or hide text.
+        </p>
       </div>
 
       <section class="settings-section">
@@ -102,12 +108,35 @@
             </div>
           </div>
 
-          <div class="setting-block">
-            <h3 class="setting-label">Text rendering</h3>
+          <div class="setting-block setting-block--full">
+            <h3 class="setting-label">Curve quality</h3>
             <div
               class="pill-segment"
               role="radiogroup"
-              aria-label="Text rendering"
+              aria-label="Curve quality"
+            >
+              <button
+                v-for="option in curveQualityOptions"
+                :key="option.value"
+                type="button"
+                class="pill-option"
+                :class="{ 'is-active': selectedCircleSides === option.value }"
+                role="radio"
+                :aria-checked="selectedCircleSides === option.value"
+                :title="option.description"
+                @click="selectedCircleSides = option.value"
+              >
+                {{ option.label }}
+              </button>
+            </div>
+          </div>
+
+          <div class="setting-block">
+            <h3 class="setting-label">Draw thread</h3>
+            <div
+              class="pill-segment"
+              role="radiogroup"
+              aria-label="Draw thread"
             >
               <button
                 type="button"
@@ -147,7 +176,7 @@
                 :class="{ 'is-active': progressiveRendering }"
                 role="radio"
                 :aria-checked="progressiveRendering"
-                title="Show geometry while loading"
+                title="Lock UI until parse/convert finish, then pan/zoom while the scene loads"
                 @click="progressiveRendering = true"
               >
                 On
@@ -158,7 +187,7 @@
                 :class="{ 'is-active': !progressiveRendering }"
                 role="radio"
                 :aria-checked="!progressiveRendering"
-                title="Wait until fully converted"
+                title="Wait until entities and text are fully converted"
                 @click="progressiveRendering = false"
               >
                 Off
@@ -197,6 +226,76 @@
               </button>
             </div>
           </div>
+
+          <div class="setting-block setting-block--half">
+            <h3 class="setting-label">Export</h3>
+            <div class="pill-segment" role="radiogroup" aria-label="Export">
+              <button
+                type="button"
+                class="pill-option"
+                :class="{ 'is-active': !disableExport }"
+                role="radio"
+                :aria-checked="!disableExport"
+                title="Allow DXF/HTML/PDF/SVG/PNG export"
+                @click="disableExport = false"
+              >
+                Enable
+              </button>
+              <button
+                type="button"
+                class="pill-option"
+                :class="{ 'is-active': disableExport }"
+                role="radio"
+                :aria-checked="disableExport"
+                title="Hide export commands and File menu items"
+                @click="disableExport = true"
+              >
+                Disable
+              </button>
+            </div>
+          </div>
+
+          <div class="setting-block setting-block--half">
+            <h3 class="setting-label">Paper background</h3>
+            <div
+              class="pill-segment"
+              role="radiogroup"
+              aria-label="Paper background"
+            >
+              <button
+                type="button"
+                class="pill-option"
+                :class="{
+                  'is-active':
+                    paperSpaceBackground === ACGI_PAPER_SPACE_BACKGROUND
+                }"
+                role="radio"
+                :aria-checked="
+                  paperSpaceBackground === ACGI_PAPER_SPACE_BACKGROUND
+                "
+                title="Desktop CAD / print preview"
+                @click="paperSpaceBackground = ACGI_PAPER_SPACE_BACKGROUND"
+              >
+                White
+              </button>
+              <button
+                type="button"
+                class="pill-option"
+                :class="{
+                  'is-active':
+                    paperSpaceBackground === ACGI_MODEL_SPACE_BACKGROUND
+                }"
+                role="radio"
+                :aria-checked="
+                  paperSpaceBackground === ACGI_MODEL_SPACE_BACKGROUND
+                "
+                title="Web viewer preference"
+                @click="paperSpaceBackground = ACGI_MODEL_SPACE_BACKGROUND"
+              >
+                Black
+              </button>
+            </div>
+          </div>
         </div>
       </section>
     </div>
@@ -209,33 +308,32 @@ import type { UploadFile, UploadProps } from 'element-plus'
 import { ElIcon, ElUpload } from 'element-plus'
 import { ref } from 'vue'
 
-import { AcApOpenViewMode, AcEdOpenMode } from '../openOptions'
+import {
+  ACDB_DRAW_CIRCLE_SIDES_DRAFT,
+  ACDB_DRAW_CIRCLE_SIDES_HIGH,
+  ACDB_DRAW_CIRCLE_SIDES_STANDARD,
+  ACGI_MODEL_SPACE_BACKGROUND,
+  ACGI_PAPER_SPACE_BACKGROUND,
+  AcApOpenViewMode,
+  AcEdOpenMode,
+  type AcApOpenOptionsPayload
+} from '../openOptions'
 
 const emit = defineEmits<{
-  fileSelect: [
-    file: File,
-    mode: AcEdOpenMode,
-    useMainThreadDraw: boolean,
-    drawNoPlotLayers: boolean,
-    progressiveRendering: boolean,
-    openViewMode: AcApOpenViewMode | undefined
-  ]
-  newDrawing: [
-    mode: AcEdOpenMode,
-    useMainThreadDraw: boolean,
-    drawNoPlotLayers: boolean,
-    progressiveRendering: boolean,
-    openViewMode: AcApOpenViewMode | undefined
-  ]
+  fileSelect: [file: File, options: AcApOpenOptionsPayload]
+  newDrawing: [options: AcApOpenOptionsPayload]
 }>()
 
 type OpenViewModeChoice = 'auto' | AcApOpenViewMode
 
 const selectedMode = ref<AcEdOpenMode>(AcEdOpenMode.Write)
 const selectedOpenViewMode = ref<OpenViewModeChoice>('auto')
-const useMainThreadDraw = ref(false)
+const selectedCircleSides = ref(ACDB_DRAW_CIRCLE_SIDES_DRAFT)
+const useMainThreadDraw = ref(true)
 const drawNoPlotLayers = ref(false)
 const progressiveRendering = ref(false)
+const paperSpaceBackground = ref(ACGI_PAPER_SPACE_BACKGROUND)
+const disableExport = ref(false)
 
 const openViewModes = [
   {
@@ -255,8 +353,23 @@ const openViewModes = [
   }
 ] as const
 
-const resolveOpenViewMode = (): AcApOpenViewMode | undefined =>
-  selectedOpenViewMode.value === 'auto' ? undefined : selectedOpenViewMode.value
+const curveQualityOptions = [
+  {
+    value: ACDB_DRAW_CIRCLE_SIDES_DRAFT,
+    label: 'Memory',
+    description: 'Fewer vertices, smaller files'
+  },
+  {
+    value: ACDB_DRAW_CIRCLE_SIDES_STANDARD,
+    label: 'Standard',
+    description: 'Balanced (100 sides per circle)'
+  },
+  {
+    value: ACDB_DRAW_CIRCLE_SIDES_HIGH,
+    label: 'Quality',
+    description: 'Smoother curves, more memory'
+  }
+] as const
 
 const accessModes = [
   {
@@ -276,31 +389,28 @@ const accessModes = [
   }
 ] as const
 
+const resolveOpenViewMode = (): AcApOpenViewMode | undefined =>
+  selectedOpenViewMode.value === 'auto' ? undefined : selectedOpenViewMode.value
+
+const currentOptions = (): AcApOpenOptionsPayload => ({
+  mode: selectedMode.value,
+  useMainThreadDraw: useMainThreadDraw.value,
+  drawNoPlotLayers: drawNoPlotLayers.value,
+  progressiveRendering: progressiveRendering.value,
+  openViewMode: resolveOpenViewMode(),
+  circleSides: selectedCircleSides.value,
+  paperSpaceBackground: paperSpaceBackground.value,
+  disableExport: disableExport.value
+})
+
 const handleFileChange: UploadProps['onChange'] = (uploadFile: UploadFile) => {
-  if (uploadFile.raw) {
-    if (isValidFile(uploadFile.raw)) {
-      emit(
-        'fileSelect',
-        uploadFile.raw,
-        selectedMode.value,
-        useMainThreadDraw.value,
-        drawNoPlotLayers.value,
-        progressiveRendering.value,
-        resolveOpenViewMode()
-      )
-    }
+  if (uploadFile.raw && isValidFile(uploadFile.raw)) {
+    emit('fileSelect', uploadFile.raw, currentOptions())
   }
 }
 
 const handleNewDrawing = () => {
-  emit(
-    'newDrawing',
-    selectedMode.value,
-    useMainThreadDraw.value,
-    drawNoPlotLayers.value,
-    progressiveRendering.value,
-    resolveOpenViewMode()
-  )
+  emit('newDrawing', currentOptions())
 }
 
 const beforeUpload: UploadProps['beforeUpload'] = (rawFile: File) => {
@@ -386,6 +496,17 @@ const isValidFile = (file: File): boolean => {
   font-size: 12px;
   color: #64748b;
   line-height: 1.35;
+}
+
+.font-cdn-notice {
+  margin: 12px 0 0;
+  padding: 8px 10px;
+  border-radius: 8px;
+  border: 1px solid #fde68a;
+  background: #fffbeb;
+  color: #92400e;
+  font-size: 11px;
+  line-height: 1.45;
 }
 
 .upload-actions {
@@ -530,7 +651,8 @@ const isValidFile = (file: File): boolean => {
 
 .settings-grid {
   display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
+  /* Six tracks so a row of three options is thirds and a row of two is halves. */
+  grid-template-columns: repeat(6, minmax(0, 1fr));
   gap: 10px 12px;
 }
 
@@ -538,10 +660,15 @@ const isValidFile = (file: File): boolean => {
   display: flex;
   flex-direction: column;
   gap: 4px;
+  grid-column: span 2;
 }
 
 .setting-block--full {
   grid-column: 1 / -1;
+}
+
+.setting-block--half {
+  grid-column: span 3;
 }
 
 .setting-label {
@@ -613,6 +740,11 @@ const isValidFile = (file: File): boolean => {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
+  .setting-block,
+  .setting-block--half {
+    grid-column: auto;
+  }
+
   .setting-block--full {
     grid-column: 1 / -1;
   }
@@ -629,6 +761,8 @@ const isValidFile = (file: File): boolean => {
     grid-template-columns: 1fr;
   }
 
+  .setting-block,
+  .setting-block--half,
   .setting-block--full {
     grid-column: auto;
   }

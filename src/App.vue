@@ -17,13 +17,16 @@
     <div v-else-if="MlCadViewer" class="viewer-screen">
       <component
         :is="MlCadViewer"
-        locale="en"
+        locale="default"
         :local-file="store.selectedFile ?? undefined"
-        :mode="selectedMode"
-        :use-main-thread-draw="useMainThreadDraw"
-        :draw-no-plot-layers="drawNoPlotLayers"
-        :progressive-rendering="progressiveRendering"
-        :open-view-mode="openViewMode"
+        :mode="openOptions.mode"
+        :use-main-thread-draw="openOptions.useMainThreadDraw"
+        :draw-no-plot-layers="openOptions.drawNoPlotLayers"
+        :progressive-rendering="openOptions.progressiveRendering"
+        :open-view-mode="openOptions.openViewMode"
+        :circle-sides="openOptions.circleSides"
+        :paper-space-background="openOptions.paperSpaceBackground"
+        :disable-export="openOptions.disableExport"
         @create="onViewerCreate"
         :base-url="BASE_URL"
       />
@@ -42,8 +45,13 @@ import {
   type Component
 } from 'vue'
 
+import type { AcApOpenOptionsPayload } from './openOptions'
 import FileUpload from './components/FileUpload.vue'
-import { AcApOpenViewMode, AcEdOpenMode } from './openOptions'
+import {
+  ACDB_DRAW_CIRCLE_SIDES_DRAFT,
+  ACGI_PAPER_SPACE_BACKGROUND,
+  AcEdOpenMode
+} from './openOptions'
 import { store } from './store'
 
 const BASE_URL = 'https://cdn.jsdelivr.net/gh/mlightcad/cad-data@main/'
@@ -52,31 +60,49 @@ const showViewer = computed(
   () => store.selectedFile != null || store.isNewDrawing
 )
 
-const selectedMode = ref<AcEdOpenMode>(AcEdOpenMode.Write)
-const useMainThreadDraw = ref(false)
-const drawNoPlotLayers = ref(false)
-const progressiveRendering = ref(false)
-const openViewMode = ref<AcApOpenViewMode | undefined>(undefined)
+const openOptions = ref<AcApOpenOptionsPayload>({
+  mode: AcEdOpenMode.Write,
+  useMainThreadDraw: true,
+  drawNoPlotLayers: false,
+  progressiveRendering: false,
+  openViewMode: undefined,
+  circleSides: ACDB_DRAW_CIRCLE_SIDES_DRAFT,
+  paperSpaceBackground: ACGI_PAPER_SPACE_BACKGROUND,
+  disableExport: false
+})
 const preparingViewer = ref(false)
 
-const app = getCurrentInstance()!.appContext.app
 let i18nInstalled = false
 const MlCadViewer = shallowRef<Component>()
+
+// Capture at setup time: `getCurrentInstance()` is null inside async callbacks.
+const app = getCurrentInstance()!.appContext.app
 
 const loadCadViewer = async () => {
   if (MlCadViewer.value) return
   const [
-    { LIBREDWG_PARSER_WORKER_FILE },
+    { LIBREDWG_PARSER_WORKER_FILE, AcApSettingManager },
     { registerLibreDwgConverter },
+    { initializeLocale },
     { MlCadViewer: Viewer, i18n }
   ] = await Promise.all([
     import('@mlightcad/cad-simple-viewer'),
     import('./registerLibreDwg'),
+    import('./locale'),
     import('@mlightcad/cad-viewer')
   ])
-  // Opt into GPL DWG support before the viewer mounts (1.6.0+).
+
+  // Isolate this example's persisted prefs from other cad-* demos that share
+  // the same origin (they all default to the `settings` localStorage key).
+  AcApSettingManager.configure({
+    storageKey: 'mlightcad.settings.cad-viewer-example'
+  })
+  // Merge host command descriptions before the viewer mounts.
+  initializeLocale()
+  // Opt into GPL DWG support before the viewer opens any drawing (1.6.0+).
   registerLibreDwgConverter(`./assets/${LIBREDWG_PARSER_WORKER_FILE}`)
   if (!i18nInstalled) {
+    // The viewer's components call `useI18n()`; install its instance once.
     app.use(i18n)
     i18nInstalled = true
   }
@@ -88,7 +114,6 @@ const prefetchCadStack = () => {
   void Promise.all([
     loadCadViewer(),
     import('@mlightcad/cad-simple-viewer'),
-    import('./locale'),
     import('./commands')
   ])
 }
@@ -110,10 +135,8 @@ const initialize = async () => {
   const { AcApDocManager, AcEdCommandStack } = await import(
     '@mlightcad/cad-simple-viewer'
   )
-  const { initializeLocale } = await import('./locale')
   const { AcApQuitCmd } = await import('./commands')
 
-  initializeLocale()
   if (import.meta.env.DEV) {
     ;(
       window as Window & { AcApDocManager?: typeof AcApDocManager }
@@ -135,12 +158,22 @@ const initialize = async () => {
 }
 
 const createNewDrawing = async () => {
-  const { AcApDocManager } = await import('@mlightcad/cad-simple-viewer')
+  const { AcApDocManager, layoutBackgroundColorFromRgb } = await import(
+    '@mlightcad/cad-simple-viewer'
+  )
   const success = await AcApDocManager.instance.newDocument({
-    mode: selectedMode.value,
-    drawNoPlotLayers: drawNoPlotLayers.value,
-    progressiveRendering: progressiveRendering.value,
-    ...(openViewMode.value != null ? { openViewMode: openViewMode.value } : {})
+    mode: openOptions.value.mode,
+    drawNoPlotLayers: openOptions.value.drawNoPlotLayers,
+    progressiveRendering: openOptions.value.progressiveRendering,
+    circleSides: openOptions.value.circleSides,
+    sysVars: {
+      paperbkcolor: layoutBackgroundColorFromRgb(
+        openOptions.value.paperSpaceBackground
+      )
+    },
+    ...(openOptions.value.openViewMode != null
+      ? { openViewMode: openOptions.value.openViewMode }
+      : {})
   })
   if (!success) {
     console.error('Failed to create new drawing')
@@ -155,26 +188,16 @@ const onViewerCreate = async () => {
   }
 }
 
-const applyOpenOptions = (
-  mode: AcEdOpenMode,
-  mainThreadDraw: boolean,
-  showNoPlotLayers: boolean,
-  enableProgressiveRendering: boolean,
-  viewMode: AcApOpenViewMode | undefined
-) => {
-  selectedMode.value = mode
-  useMainThreadDraw.value = mainThreadDraw
-  drawNoPlotLayers.value = showNoPlotLayers
-  progressiveRendering.value = enableProgressiveRendering
-  openViewMode.value = viewMode
-}
-
 /** Ensure CAD module is ready before leaving the upload screen. */
-const prepareThenOpen = async (open: () => void) => {
+const prepareThenOpen = async (
+  options: AcApOpenOptionsPayload,
+  open: () => void
+) => {
   if (preparingViewer.value) return
   preparingViewer.value = true
   try {
     await loadCadViewer()
+    openOptions.value = options
     open()
   } catch (error) {
     console.error('Failed to load CAD viewer', error)
@@ -183,43 +206,16 @@ const prepareThenOpen = async (open: () => void) => {
   }
 }
 
-const handleFileSelect = (
-  file: File,
-  mode: AcEdOpenMode,
-  mainThreadDraw: boolean,
-  showNoPlotLayers: boolean,
-  enableProgressiveRendering: boolean,
-  viewMode: AcApOpenViewMode | undefined
-) => {
-  void prepareThenOpen(() => {
+const handleFileSelect = (file: File, options: AcApOpenOptionsPayload) => {
+  void prepareThenOpen(options, () => {
     store.isNewDrawing = false
-    applyOpenOptions(
-      mode,
-      mainThreadDraw,
-      showNoPlotLayers,
-      enableProgressiveRendering,
-      viewMode
-    )
     store.selectedFile = file
   })
 }
 
-const handleNewDrawing = (
-  mode: AcEdOpenMode,
-  mainThreadDraw: boolean,
-  showNoPlotLayers: boolean,
-  enableProgressiveRendering: boolean,
-  viewMode: AcApOpenViewMode | undefined
-) => {
-  void prepareThenOpen(() => {
+const handleNewDrawing = (options: AcApOpenOptionsPayload) => {
+  void prepareThenOpen(options, () => {
     store.selectedFile = null
-    applyOpenOptions(
-      mode,
-      mainThreadDraw,
-      showNoPlotLayers,
-      enableProgressiveRendering,
-      viewMode
-    )
     store.isNewDrawing = true
   })
 }
