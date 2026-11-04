@@ -5,6 +5,7 @@ docs
 dist
 lib
 tmp
+stats.html
 tsconfig.tsbuildinfo
 
 # dependencies

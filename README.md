@@ -6,10 +6,12 @@ This is an example application that demonstrates how to use the `@mlightcad/cad-
 
 ## Features
 
-- 🎨 **Full UI Interface**: Complete CAD viewer with toolbars, menus, and status bar
-- 🌐 **Internationalization**: Multi-language support (English and Chinese)
+- 🎨 **Full UI Interface**: Complete CAD viewer with toolbars, ribbons, menus, and status bar
+- 🌐 **Internationalization**: Multi-language support (English, Chinese, Turkish, Czech, Arabic)
 - 🎯 **Advanced Controls**: Layer management, point styles, settings, and more
 - 📁 **File Support**: DXF and DWG file loading with drag & drop
+- ⚙️ **Open options**: Access mode, initial view, curve quality, text rendering, progressive
+  rendering, non-plottable layers, paper background, and export toggle
 
 ## Development
 
@@ -23,6 +25,9 @@ pnpm dev
 # Build for production
 pnpm build
 
+# Analyze the bundle
+pnpm analyze
+
 # Preview production build
 pnpm preview
 ```
@@ -35,14 +40,22 @@ Firstly, add the following dependencies into your `package.json`.
 - @mlightcad/cad-html-plugin
 - @mlightcad/cad-pdf-plugin
 - @mlightcad/cad-simple-viewer
+- @mlightcad/cad-svg-plugin
 - @mlightcad/cad-viewer
 - @mlightcad/data-model
 - @mlightcad/libredwg-converter (optional, GPL-3.0 — required for DWG)
+- @mlightcad/pdf-renderer
+- @mlightcad/three-renderer
+- @vueuse/core
 - element-plus
 - lodash-es
 - three
 - vue
 - vue-i18n
+
+`@mlightcad/cad-viewer` imports `@mlightcad/cad-{html,pdf,svg}-plugin/register` and its
+renderer peers directly, so those packages must be installed even if your app never
+exports to those formats.
 
 ### Register a DWG converter (required for DWG since 1.6.0)
 
@@ -76,13 +89,35 @@ If you ship a closed-source product and cannot distribute GPL code, skip LibreDW
 
 ```vue
 <template>
-  <MlCadViewer locale="zh" url="https://cdn.jsdelivr.net/gh/mlightcad/cad-data/data/anteen.dwg" />
+  <MlCadViewer
+    locale="default"
+    url="https://cdn.jsdelivr.net/gh/mlightcad/cad-data@main/data/anteen.dwg"
+    :mode="AcEdOpenMode.Write"
+    :circle-sides="50"
+    base-url="https://cdn.jsdelivr.net/gh/mlightcad/cad-data@main/"
+  />
 </template>
 
 <script setup lang="ts">
 import { MlCadViewer } from '@mlightcad/cad-viewer'
+import { AcEdOpenMode } from '@mlightcad/cad-simple-viewer'
 </script>
 ```
+
+### Install the viewer's `vue-i18n` instance
+
+`@mlightcad/cad-viewer` ships its own `vue-i18n` instance (`i18n`) and every component
+calls `useI18n()`. Install it once before mounting the viewer, otherwise you get
+`Uncaught SyntaxError: Need to install with app.use function`:
+
+```typescript
+import { i18n, MlCadViewer } from '@mlightcad/cad-viewer'
+
+app.use(i18n)
+```
+
+Custom command messages must be merged into **both** registries — `AcApI18n` (core
+translation) and the viewer's `i18n` (Vue UI). See `src/locale/index.ts`.
 
 ### Copy worker and runtime assets
 
@@ -148,6 +183,37 @@ export default defineConfig(() => {
   }
 })
 ```
+
+### Chunking
+
+`vite/rollupOutput.ts` groups the viewer stack into stable Rollup chunks
+(`three`, `three-renderer`, `data-model`, `cad-simple-viewer`, `cad-viewer`, one chunk per
+export plugin) so the app entry stays small and each package can be cached
+independently. It mirrors `packages/vite-config/pluginRollupOutput.ts` in the
+[cad-viewer monorepo](https://github.com/mlightcad/cad-viewer).
+
+Two extra rules protect the lazy `import()` of `@mlightcad/cad-viewer` and are easy to
+lose when tuning `manualChunks`:
+
+- `vue`, `@vue/*`, `lodash-es` and `lodash-unified` go to a `vendor` chunk. The upload
+  screen imports Vue statically (through element-plus), so if Rollup folds Vue into a
+  viewer package chunk, the entry statically depends on that whole chunk.
+- Vite's virtual helpers (`\0vite/preload-helper.js`, `\0commonjsHelpers.js`) go to
+  `vite-helpers`. They are pulled in statically by modules that also use a dynamic
+  `import()`, so wherever Rollup parks them, their importer follows.
+
+Regressing either rule takes the eager entry payload from ~184 kB to several megabytes.
+`pnpm analyze` writes `stats.html` for checking this.
+
+### Version alignment
+
+`@mlightcad/cad-viewer` **1.7.8** declares `@mlightcad/data-model` 1.15.21 as an exact
+peer, and `@mlightcad/libredwg-converter` **3.15.21** peers on the same 1.15.21. Both are
+pinned exactly in `package.json` so the whole viewer stack (including the `@mlightcad/common`
+/ `geometry-engine` / `graphic-interface` trio that `data-model` depends on) resolves to a
+single copy. When bumping the viewer, bump `libredwg-converter` to the matching 3.15.x
+release; `pnpm install` otherwise installs two `data-model` copies and the DWG converter
+silently stops being registered against the open database.
 
 ## License
 
